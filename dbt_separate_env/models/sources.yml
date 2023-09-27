@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: customers
+    description: This is a replica of the Postgres database used by our app
+    schema: "{{ 'prod_schema' if target.name == 'prod' else 'my_schema' }}"
+    tables:
+      - name: table_1
+        description: One record per customer.
