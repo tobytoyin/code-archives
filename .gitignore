@@ -131,6 +131,7 @@ venv.bak/
 */.venv/
 */venv/
 */.git/
+*/.github/
 
 # Spyder project settings
 .spyderproject
