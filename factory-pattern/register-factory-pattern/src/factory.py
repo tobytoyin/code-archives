@@ -6,7 +6,7 @@ from typing import Any, Dict
 PLUGIN_DIR = "src.plugins"
 
 
-class Registery:
+class Registry:
     registry: Dict[str, Any] = {}
 
     @classmethod
@@ -52,7 +52,7 @@ def get_plugin(name: str, *args, **kwargs):
     """
 
     register_all()  # invoke all registration
-    plugin = Registery.get_plugin(name)
+    plugin = Registry.get_plugin(name)
     if not plugin:
         raise ValueError
 

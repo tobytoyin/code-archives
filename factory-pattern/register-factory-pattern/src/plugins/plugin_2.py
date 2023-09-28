@@ -1,7 +1,7 @@
-from src.factory import Registery
+from src.factory import Registry
 
 
-@Registery.register(name="plugin-2")
+@Registry.register(name="plugin-2")
 class Plugin2:
     def run(self):
         res = "hello world from plugin 2"
