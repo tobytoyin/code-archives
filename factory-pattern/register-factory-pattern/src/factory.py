@@ -40,7 +40,20 @@ def register_all():
         importlib.import_module(f"{PLUGIN_DIR}.{mod[:-3]}")
 
 
-def get_plugin(name: str):
+def get_plugin(name: str, *args, **kwargs):
+    """factory to create a class object that is registered in Registry
+
+    Args:
+        name (enum): registered key for the class
+        *args, **kwargs: arguments for the class for initialisation
+
+    Returns:
+        the registered object
+    """
+
     register_all()  # invoke all registration
     plugin = Registery.get_plugin(name)
-    return plugin
+    if not plugin:
+        raise ValueError
+
+    return plugin(*args, **kwargs)
