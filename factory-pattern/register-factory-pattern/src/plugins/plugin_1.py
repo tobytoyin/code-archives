@@ -9,4 +9,4 @@ class Plugin1:
     def run(self):
         res = f"hello world from plugin 1 ({self.id})"
         print(res)
-        return res
+        return res___
