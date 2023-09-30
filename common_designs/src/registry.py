@@ -1,8 +1,7 @@
 # common Protocol for factory
-import fnmatch
+import glob
 import importlib
 from functools import cache
-from importlib import resources
 from typing import Dict, Generic, TypeVar
 
 T = TypeVar("T")
@@ -61,10 +60,12 @@ class Registry(Generic[T]):
     @cache
     def register_from_adapters(cls) -> int:
         """run import once to invoke all the registration of the class"""
-        modules = resources.contents(cls.import_loc)  # get all modules under /plugins
-        print(f"Found Modules at {modules}")
+        root_dir = "src"
+        found_modules = glob.glob(cls.import_pattern, root_dir=root_dir)
+        for path in found_modules:
+            fullpath = f"{root_dir}/{path}"
+            module_name = fullpath.replace("/", ".")
+            module_name = module_name.replace(".py", "")
+            importlib.import_module(module_name)
 
-        for mod in fnmatch.filter(modules, cls.import_name_pattern):
-            importlib.import_module(f"{cls.import_loc}.{mod[:-3]}")
-
-        return len(modules)  # return cached when no diff
+        return len(found_modules)  # return cached when no diffiff
