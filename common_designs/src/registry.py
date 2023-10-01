@@ -33,8 +33,7 @@ class Registry(Generic[T]):
     """
 
     _map: Dict[str, T] = {}
-    import_loc: str  # the python directory to register for
-    import_name_pattern: str  # the glob pattern of files to look for
+    import_pattern: str  # the glob pattern of files to look for
 
     @classmethod
     def register(cls, name: str):
@@ -60,12 +59,23 @@ class Registry(Generic[T]):
     @cache
     def register_from_adapters(cls) -> int:
         """run import once to invoke all the registration of the class"""
-        root_dir = "src"
-        found_modules = glob.glob(cls.import_pattern, root_dir=root_dir)
+        import src
+
+        # since this will be installed at python/libs as root directory
+        # it needs to find the other modules relative to this root
+        root_module = src.__path__[0]
+        found_modules = glob.glob(cls.import_pattern, root_dir=root_module)
+        print("Found: ", found_modules)
+
         for path in found_modules:
-            fullpath = f"{root_dir}/{path}"
-            module_name = fullpath.replace("/", ".")
+            # create the in-module package path
+            module_name = f"{src.__name__}/{path}"
+            module_name = module_name.replace("/", ".")
             module_name = module_name.replace(".py", "")
+            print(module_name)
+
             importlib.import_module(module_name)
 
-        return len(found_modules)  # return cached when no diffiff
+            print(f"Registered {module_name}")
+
+        return len(found_modules)  # return cached when no diff
