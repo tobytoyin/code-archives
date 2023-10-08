@@ -11,7 +11,7 @@ services:
 
     build:
       context: .
-      dockerfile: dockerfile-dev.yaml
+      dockerfile: dockerfile.dev
       args: 
         - PYTHON_VERSION=3.12
     tty: true

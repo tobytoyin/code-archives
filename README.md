@@ -31,7 +31,7 @@ Each Archive comes with an dockerfile and compose that can be used to setup a co
 
 ```shell
 # run this to start the compose 
-docker compose -f compose-dev.yaml up --build -d
+docker compose -f docker-compose.dev.yaml up --build -d
 
 # get into the dev env
 docker container exec -it app bash
