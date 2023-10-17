@@ -5,18 +5,12 @@ USE APPLICATION PACKAGE my_streamlit_package;
 
 
 -- run the below using the connector/ api
-PUT file:///./ @my_streamlit_package overwrite=true auto_compress=false;
-PUT file:///
--- PUT file:///<path_to_your_root_folder>/tutorial/scripts/setup.sql @hello_snowflake_package.stage_content.hello_snowflake_stage/scripts overwrite=true auto_compress=false;
--- PUT file:///<path_to_your_root_folder>/tutorial/readme.md @hello_snowflake_package.stage_content.hello_snowflake_stage overwrite=true auto_compress=false;
 
 -- -- files in package
 -- LIST @MY_STREAMLIT_PACKAGE.PUBLIC.PACKAGE_STAGE;
 
 -- -- install application
--- CREATE APPLICATION my_streamlit_app
---   FROM APPLICATION PACKAGE MY_STREAMLIT_PACKAGE
---   USING '@MY_STREAMLIT_PACKAGE.PUBLIC.PACKAGE_STAGE';
+
   
 
 -- ----- ABOVE ARE SETUP ONLY RUN ONCE -----
