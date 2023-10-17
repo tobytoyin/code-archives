@@ -24,3 +24,20 @@ poetry new <my_archive>
 An Archive stores an reproducible codes or example, sometime this could be a single pacakge (containing scripts), or an entire architecture (container multiple packages). Folder tree only represents an organisational structure. 
 
 An folder which contains a `README.md` defines the root of archive and the beginning of the context. `README.md` therein should provides a brief summary about what the Archive is about, usages, or its intend.
+
+## Docker Dev Env
+
+Each Archive comes with an dockerfile and compose that can be used to setup a containerised dev environment: 
+
+```shell
+# run this to start the compose 
+docker compose -f docker-compose.dev.yaml up --build -d
+
+# get into the dev env
+docker container exec -it app bash
+
+# stop and remove
+docker container stop app | xargs -I {} docker container rm {}
+```
+
+Python version can be changed as `args` inside `compose-dev.yaml`.
