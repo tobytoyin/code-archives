@@ -1,11 +1,12 @@
+
 CREATE APPLICATION ROLE app_public;
-CREATE SCHEMA IF NOT EXISTS streamlit_app;
-GRANT USAGE ON SCHEMA streamlit_app TO APPLICATION ROLE app_public;
+CREATE SCHEMA IF NOT EXISTS DEMO;
+GRANT USAGE ON SCHEMA DEMO TO APPLICATION ROLE app_public;
 
 -- create streamlit app entry point
-CREATE STREAMLIT streamlit_app.my_streamlit_app
-  FROM '/src'
+CREATE STREAMLIT DEMO.my_app
+  FROM '/streamlit'
   MAIN_FILE = '/main.py'
 ;
+GRANT USAGE ON STREAMLIT DEMO.my_app TO APPLICATION ROLE app_public;
 
-GRANT USAGE ON STREAMLIT streamlit_app.my_streamlit_app TO APPLICATION ROLE app_public;

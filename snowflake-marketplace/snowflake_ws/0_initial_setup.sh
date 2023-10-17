@@ -1,8 +1,30 @@
+set -e
+
 PACKAGE_NAME=$1
 APP_NAME=$2
 STAGE_NAME=$3  # my_streamlit_package.public.package_stage
 
 PACKAGE_STG_NAME="$PACKAGE_NAME.PUBLIC.$STAGE_NAME"
+
+
+# write setup.sql based on inputs
+streamlit_schema="STREAMLIT_APP"
+echo "
+--The following is within the context of '$APP_NAME'
+
+CREATE APPLICATION ROLE app_public;
+CREATE SCHEMA IF NOT EXISTS $streamlit_schema;
+GRANT USAGE ON SCHEMA DEMO TO APPLICATION ROLE app_public;
+
+-- create streamlit app entry point
+CREATE STREAMLIT $streamlit_schema.$APP_NAME
+  FROM '/streamlit'
+  MAIN_FILE = '/main.py'
+;
+GRANT USAGE ON STREAMLIT $streamlit_schema.$APP_NAME TO APPLICATION ROLE app_public;
+" > ./scripts/setup.sql
+
+
 
 snowsql -q "
 use role accountadmin; 
