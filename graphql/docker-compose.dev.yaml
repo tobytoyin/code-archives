@@ -14,6 +14,7 @@ services:
       dockerfile: dockerfile.dev
       args: 
         - PYTHON_VERSION=3.12
+        - DEP_MANAGER=poetry
     tty: true
     stdin_open: true
 
