@@ -44,7 +44,8 @@ FILE_FORMAT = (TYPE = 'csv' FIELD_DELIMITER = '|' SKIP_HEADER = 1);
 "
 
 # snowflake PUT doesn't allow dir sync, so we'll have to use a for-loop to PUT
-for file in ./src/*; do
+streamlit_files=$( find ./src -type f | xargs )  # ensure n-depth tree
+for file in $streamlit_files ; do
     snowsql -q "PUT\
     file://${file} @$PACKAGE_STG_NAME/streamlit overwrite=true auto_compress=false;"
 done
