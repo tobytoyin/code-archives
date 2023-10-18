@@ -14,8 +14,10 @@ services:
       dockerfile: dockerfile.dev
       args: 
         - PYTHON_VERSION=3.12
-        - DEP_MANAGER=pip
     tty: true
     stdin_open: true
+    entrypoint: streamlit run src/app.py
+    ports:
+      - 8501:8501
 
 

@@ -1,7 +1,6 @@
 FROM ubuntu:latest
 
 ARG PYTHON_VERSION=3.11
-ARG DEP_MANAGER="poetry"
 
 # setup linux & pythonX version
 ENV DEBIAN_FRONTEND=noninteractive 
@@ -25,13 +24,4 @@ WORKDIR /working
 COPY . /working
 
 # install requirements
-RUN \
-    if [ ${DEP_MANAGER} = "poetry" ]; then \
-        poetry config virtualenvs.create true; \
-        poetry env use python${PYTHON_VERSION} \
-        && poetry install; \
-    else \
-        echo hello; \
-        pip --no-cache-dir install -r requirements.txt; \
-    fi;
-
+RUN pip --no-cache-dir install -r requirements.txt
