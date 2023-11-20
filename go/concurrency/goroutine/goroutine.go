@@ -1,4 +1,4 @@
-package badgoroutine
+package goroutine
 
 import (
 	"fmt"
@@ -18,16 +18,15 @@ func Consumer(queuePtr *Queue) {
 	queue := *queuePtr
 	lastIndex := len(queue) - 1
 
-	// consider that the coroutine might fail
-	// when go Consumer runs before Producers created number
+	// exit when the queue is empty
 	if lastIndex < 0 {
 		return
 	}
 
 	consumed := queue[lastIndex]
 	*queuePtr = append(queue[:lastIndex], queue[lastIndex+1:]...)
-	fmt.Printf("Consumed: %d\n", consumed)
 	processing()
+	fmt.Printf("Consumed: %d\n", consumed)
 }
 
 func DequeueGoroutine() {
@@ -39,7 +38,8 @@ func DequeueGoroutine() {
 		go Consumer(&queue)
 		queueCount = len(queue)
 	}
-	// timeout for 10s
-	time.Sleep(10 * time.Second)
+
+	// timeout for 5s
+	time.Sleep(5 * time.Second)
 	fmt.Println("Queue is completed!")
 }

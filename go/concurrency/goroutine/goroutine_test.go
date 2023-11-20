@@ -1,4 +1,4 @@
-package badgoroutine
+package goroutine
 
 import (
 	"testing"
