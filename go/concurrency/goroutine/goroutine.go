@@ -7,6 +7,11 @@ import (
 
 type Queue []int
 
+func processing() {
+	// assume it takes 1 second to process
+	time.Sleep(1 * time.Second)
+}
+
 func Consumer(queuePtr *Queue) {
 
 	// consume a number from the Queue
@@ -21,9 +26,8 @@ func Consumer(queuePtr *Queue) {
 
 	consumed := queue[lastIndex]
 	*queuePtr = append(queue[:lastIndex], queue[lastIndex+1:]...)
-
 	fmt.Printf("Consumed: %d\n", consumed)
-	time.Sleep(1 * time.Second) // assume it takes 1 second to process
+	processing()
 }
 
 func DequeueGoroutine() {
@@ -34,7 +38,6 @@ func DequeueGoroutine() {
 	for queueCount > 0 {
 		go Consumer(&queue)
 		queueCount = len(queue)
-		fmt.Println(queue)
 	}
 	// timeout for 10s
 	time.Sleep(10 * time.Second)

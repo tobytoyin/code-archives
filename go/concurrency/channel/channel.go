@@ -7,11 +7,15 @@ import (
 
 type Queue []int
 
+func processing() {
+	// assume it takes 1 second to process
+	time.Sleep(1 * time.Second)
+}
+
 func Consumer(queue chan int) {
 	consumed := <-queue
-
 	fmt.Printf("Consumed: %d\n\n", consumed)
-	time.Sleep(1 * time.Second) // assume it takes 1 second to process
+	processing()
 }
 
 func Producer(queue chan int, item int) {
