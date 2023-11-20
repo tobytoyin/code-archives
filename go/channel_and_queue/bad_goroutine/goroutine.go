@@ -2,11 +2,14 @@ package badgoroutine
 
 import (
 	"fmt"
+	"time"
 )
 
 type Queue []int
 
 func Consumer(queuePtr *Queue) {
+	time.Sleep(1 * time.Second)
+
 	// consume a number from the Queue
 	queue := *queuePtr
 	lastIndex := len(queue) - 1
@@ -23,7 +26,7 @@ func Consumer(queuePtr *Queue) {
 	*queuePtr = append(queue[:lastIndex], queue[lastIndex+1:]...)
 }
 
-func GoroutineQueue() {
+func DequeueGoroutine() {
 	queue := Queue{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 	queueCount := len(queue)
 
