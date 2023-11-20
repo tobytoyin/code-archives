@@ -30,9 +30,8 @@ func GoroutineQueue() {
 	// while loop when the queue is not empty
 	for queueCount > 0 {
 		go Consumer(&queue)
-		queueCount = len(*&queue)
+		queueCount = len(queue)
 		fmt.Println(queue)
 	}
 	fmt.Println("Queue is completed!")
-
 }
