@@ -8,7 +8,6 @@ import (
 type Queue []int
 
 func Consumer(queuePtr *Queue) {
-	time.Sleep(1 * time.Second)
 
 	// consume a number from the Queue
 	queue := *queuePtr
@@ -22,8 +21,9 @@ func Consumer(queuePtr *Queue) {
 	}
 
 	consumed := queue[lastIndex]
-	fmt.Printf("Consumed: %d\n", consumed)
 	*queuePtr = append(queue[:lastIndex], queue[lastIndex+1:]...)
+	time.Sleep(1 * time.Second)
+	fmt.Printf("Consumed: %d\n", consumed)
 }
 
 func DequeueSequential() {
@@ -36,5 +36,7 @@ func DequeueSequential() {
 		queueCount = len(queue)
 		fmt.Println(queue)
 	}
+	// timeout for 10s
+	time.Sleep(10 * time.Second)
 	fmt.Println("Queue is completed!")
 }

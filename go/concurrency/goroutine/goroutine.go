@@ -8,7 +8,6 @@ import (
 type Queue []int
 
 func Consumer(queuePtr *Queue) {
-	time.Sleep(1 * time.Second)
 
 	// consume a number from the Queue
 	queue := *queuePtr
@@ -17,13 +16,14 @@ func Consumer(queuePtr *Queue) {
 	// consider that the coroutine might fail
 	// when go Consumer runs before Producers created number
 	if lastIndex < 0 {
-		fmt.Println("No item in the queue")
 		return
 	}
 
 	consumed := queue[lastIndex]
-	fmt.Printf("Consumed: %d\n", consumed)
 	*queuePtr = append(queue[:lastIndex], queue[lastIndex+1:]...)
+
+	fmt.Printf("Consumed: %d\n", consumed)
+	time.Sleep(1 * time.Second) // assume it takes 1 second to process
 }
 
 func DequeueGoroutine() {
@@ -36,5 +36,7 @@ func DequeueGoroutine() {
 		queueCount = len(queue)
 		fmt.Println(queue)
 	}
+	// timeout for 10s
+	time.Sleep(10 * time.Second)
 	fmt.Println("Queue is completed!")
 }
