@@ -7,3 +7,11 @@ docker run --rm -it \
     docker.elastic.co/logstash/logstash:8.11.1 \
     -f /usr/share/logstash/pipeline/syslog-input.conf
 ```
+
+Then telnet into it :
+
+```shell
+telnet localhost 514
+```
+
+Then enter the logs into the terminal.
