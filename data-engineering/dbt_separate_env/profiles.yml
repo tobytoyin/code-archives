@@ -1,0 +1,31 @@
+config:
+  send_anonymous_usage_stats: true
+  use_colors: true
+  debug: true
+
+# common login variable
+# ...
+
+# below store the profile to access Prod env database
+snowflake:
+  target: prod
+  outputs:
+    prod:
+      type: snowflake
+      account: "****"
+      user: "****"
+      password: "****"
+
+      database: PROD
+      warehouse: COMPUTE_WH
+      schema: DBT_SCHEMA
+
+    test:
+      type: snowflake
+      account: "****"
+      user: "****"
+      password: "****"
+
+      database: TEST
+      warehouse: COMPUTE_WH
+      schema: DBT_SCHEMA

@@ -1,0 +1,5 @@
+# manifest indicating what files need to be deployed under the dir
+manifest_version: 1
+artifacts:
+  setup_script: scripts/setup.sql
+  readme: README.md
