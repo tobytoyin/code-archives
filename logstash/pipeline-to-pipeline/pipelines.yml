@@ -1,0 +1,6 @@
+- pipeline.id: pipeline-upstream
+  path.config: "/usr/share/logstash/pipeline/pipeline-upstream.conf"
+  queue.type: persisted
+
+- pipeline.id: pipeline-downstream
+  path.config: "/usr/share/logstash/pipeline/pipeline-downstream.conf"
