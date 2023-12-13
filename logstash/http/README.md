@@ -1,3 +1,5 @@
+## Using Logstash as the API server to receive POST Requests
+
 ```shell
 docker run --rm -it \
     -p 8080:8080 \
@@ -15,4 +17,11 @@ curl -X POST -H "Content-Type: application/json" -d '{"key1":"value1", "key2":"v
 
 ```
 
-Then enter the logs into the terminal.
+## Using Logstash as the client server to send GET Requests
+
+We can setup a dummy backend to pull from http:
+
+```shell
+docker-compose up --build --force-recreate --remove-orphans
+# this build up the python backend and the logstash http_poller
+```
