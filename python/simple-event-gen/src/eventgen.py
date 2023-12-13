@@ -61,9 +61,11 @@ if __name__ == "__main__":
         def message(self):
             # random pick a new messages
             return random.choice(["message1", "message2", "message3"])
+        
 
     async def main():
-        log_template = "[{{level}}] {{date}} {{message}}"
+        log_template = "[{{level}}] {{date}} key1={{message}}"
+        
         results = eventsgen(log_template, 50, RandomCallback())
         async for value in results:
             print(value)

@@ -1,0 +1,9 @@
+
+FROM ubuntu:latest
+
+RUN mkdir -p /work
+WORKDIR /work
+
+RUN apt-get update && apt-get -y upgrade
+
+CMD sleep infinity
