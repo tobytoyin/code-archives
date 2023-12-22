@@ -1,0 +1,16 @@
+[
+    {
+        "TimeGenerated": "2023-11-14 15:10:02",
+        "CollectorHostName": "host",
+        "Computer": "computer",
+        "EventTime": "2023-11-14 15:10:02",
+        "Facility": "facility",
+        "HostIP": "0.0.0.0",
+        "HostName": "hostname",
+        "ProcessID": 5133,
+        "ProcessName": "processName",
+        "SeverityLevel": "seclevel",
+        "SourceSystem": "linux",
+        "SyslogMessage": "hello world"
+    }
+]
