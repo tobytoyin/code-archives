@@ -31,6 +31,5 @@ RUN \
         poetry env use python${PYTHON_VERSION} \
         && poetry install; \
     else \
-        echo hello; \
-        pip --no-cache-dir install -r requirements.txt; \
+        pip3 --no-cache-dir install -r requirements.txt; \
     fi;

@@ -1,11 +1,13 @@
 [tool.poetry]
-name = "{template}"
+name = "template"  #TODO change this
 version = "0.1.0"
 description = "\"template folder for Python Archive\""
 authors = ["Toby <40096033+tobytoyin@users.noreply.github.com>"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "src"}]
+packages = [
+    {include = "src"}
+]
 
 # [tool.poetry.scripts]
 # cli_name = "cli.module:function"

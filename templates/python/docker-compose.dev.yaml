@@ -1,5 +1,6 @@
 services:
   app:
+    working_dir: /working
     container_name: app
     init: true
     volumes:
@@ -7,13 +8,12 @@ services:
     - type: bind
       source: /var/run/docker.sock
       target: /var/run/docker.sock
-    working_dir: /working
 
     build:
       context: .
       dockerfile: dockerfile.dev
       args:
         - PYTHON_VERSION=3.12
-        - DEP_MANAGER=pip
+        - DEP_MANAGER=poetry
     tty: true
     stdin_open: true
