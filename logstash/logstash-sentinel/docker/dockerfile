@@ -1,0 +1,14 @@
+FROM docker.elastic.co/logstash/logstash:8.11.1
+
+USER root
+
+COPY add_keystore.sh .
+COPY .env .
+
+# install azure plugins
+RUN /usr/share/logstash/bin/logstash-plugin install microsoft-sentinel-log-analytics-logstash-output-plugin
+
+# add .env secrets to logstash keystore
+RUN chmod +x add_keystore.sh
+RUN sh add_keystore.sh .env
+RUN rm .env

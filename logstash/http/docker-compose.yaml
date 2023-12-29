@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # build the backend container
+  python-backend:
+    build: ./backend/
+    container_name: python-backend
+    ports:
+      - 8080:8080
+    networks:
+      - api-network
+
+  # build the client container, which access the backend
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.11.1
+    container_name: logstash
+    tty: true
+    volumes:
+      - ./pipeline/:/usr/share/logstash/pipeline/
+      - ./pipelines.yml:/usr/share/logstash/config/pipelines.yml
+      - ./logstash.yml:/usr/share/logstash/config/logstash.yml
+    command: |
+      -f /usr/share/logstash/pipeline/pull-pattern-get.conf
+    networks:
+      - api-network
+
+networks:
+  # create a network to allow client to request backend
+  api-network:
+    driver: bridge
