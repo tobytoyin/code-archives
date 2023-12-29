@@ -5,14 +5,13 @@ import random
 import time
 from argparse import ArgumentParser
 from functools import partial
-from pathlib import Path
 from typing import Callable
 
 from . import eventsgen
 from .eventsend import SENDERS
 
 
-def get_module_config(module_path: str) -> type[eventsgen.EventConfig]:
+def get_module_config(module_path: str) -> eventsgen.EventConfig:
     path, classname = module_path.split(":")
 
     # use this to get instanciate a custom EventConfig interface class
@@ -22,7 +21,7 @@ def get_module_config(module_path: str) -> type[eventsgen.EventConfig]:
 
     custom_config = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(custom_config)
-    return getattr(custom_config, classname)
+    return getattr(custom_config, classname)()
 
 
 def get_sender_callback(args):
@@ -55,7 +54,6 @@ async def main(
         rnd_blocktime = random.uniform(*blocktime_range)
         print("-" * 20, "\n")
         sender(value)
-        print(value)
         print(f"Block for {rnd_blocktime:.4f}s")
         time.sleep(rnd_blocktime)
 
@@ -116,7 +114,7 @@ def eventsgen_cli():
     asyncio.run(
         main(
             sender=sender_callback,
-            config_class=config(),
+            config_class=config,
             count=args.count,
             blocktime_range=blocktime_range,
         )
