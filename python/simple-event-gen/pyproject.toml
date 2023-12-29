@@ -8,7 +8,7 @@ readme = "README.md"
 packages = [{include = "src"}]
 
 [tool.poetry.scripts]
-eventsgen = "src.cli:cli"
+eventsgen = "src.cli:eventsgen_cli"
 
 [tool.poetry.dependencies]
 python = "^3.11"
