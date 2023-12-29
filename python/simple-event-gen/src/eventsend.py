@@ -1,15 +1,27 @@
 import socket
-import time
+from typing import Callable, TypeAlias
 
-host = "localhost"
-port = 514
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((host, port))
+Message: TypeAlias = str
+Host: TypeAlias = str
+Port: TypeAlias = int
+Encoding: TypeAlias = str
+
+# new send functions should fllow the below signature
+fnc_sign = Callable[[Message, Host, Port, Encoding], None]
 
 
-s.sendall(
-    b"CEF:0|Microsoft|ATA|1.9.0.0|EncryptionDowngradeSuspiciousActivity|Encryption downgrade activity|0|dvchost=tech.edu shost=COE-2021-081 cat=Audit end=1623785205419 rt=1623785207200 cs1Label=agentversion cs1=7.4.0.27237 cs2Label=subtype cs2=Policy Update cs3Label=result cs3=Success cs4Label=reason cs4=None msg=XDR Agent policy updated on COE-2021-081 tenantname=Test Tech - Cortex XDR tenantCDLid=323555 CSPaccountname=8290\n"
-)
+def tcp_send(
+    message: Message,
+    host: Host = "localhost",
+    port: Port = 514,
+    encoding: Encoding = "utf-8",
+):
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host, port))
+    s.sendall(message.encode(encoding))
+    s.close()
 
-time.sleep(10)
-s.close()
+
+SENDERS: dict[str, fnc_sign] = {
+    "tcp": tcp_send,
+}
