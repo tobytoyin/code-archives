@@ -10,6 +10,15 @@ Encoding: TypeAlias = str
 fnc_sign = Callable[[Message, Host, Port, Encoding], None]
 
 
+def test_send(
+    message: Message,
+    host: Host = None,
+    port: Port = None,
+    encoding: Encoding = None,
+):
+    return
+
+
 def tcp_send(
     message: Message,
     host: Host = "localhost",
@@ -23,5 +32,6 @@ def tcp_send(
 
 
 SENDERS: dict[str, fnc_sign] = {
+    "test": test_send,
     "tcp": tcp_send,
 }

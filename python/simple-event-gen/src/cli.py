@@ -12,10 +12,9 @@ from . import eventsgen
 from .eventsend import SENDERS
 
 
-def get_module_config(
-    path: Path,
-    config_class: str,
-) -> type[eventsgen.EventConfig]:
+def get_module_config(module_path: str) -> type[eventsgen.EventConfig]:
+    path, classname = module_path.split(":")
+
     # use this to get instanciate a custom EventConfig interface class
     spec = importlib.util.spec_from_file_location("config", path)
     if spec is None:
@@ -23,7 +22,7 @@ def get_module_config(
 
     custom_config = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(custom_config)
-    return getattr(custom_config, config_class)
+    return getattr(custom_config, classname)
 
 
 def get_sender_callback(args):
@@ -65,16 +64,10 @@ def eventsgen_cli():
     cli = ArgumentParser(prog="eventsgen")
     # events gen related
     cli.add_argument(
-        "--path",
-        type=Path,
-        required=True,
-        help="Python script path storing the EventConfig class interface",
-    )
-    cli.add_argument(
-        "--class_name",
+        "--location",
         type=str,
         required=True,
-        help="Class name of the EventConfig class interface",
+        help="PythonScriptPath:ClassName to indicate where the config class is stored",
     )
     cli.add_argument(
         "--count",
@@ -105,10 +98,17 @@ def eventsgen_cli():
         default="0.0,10.0",
         help="Random range in seconds of which the sender would block to send msg",
     )
+    cli.add_argument(
+        "--seed",
+        type=int,
+        default=13579,
+        help="random seed",
+    )
 
     # parse cli args and start logics
     args = cli.parse_args()
-    config = get_module_config(path=args.path, config_class=args.class_name)
+    random.seed(args.seed)
+    config = get_module_config(module_path=args.location)
 
     sender_callback = get_sender_callback(args)  # some kind of log sender partial(str)
     blocktime_range = get_blocktime_range(args)
@@ -121,7 +121,3 @@ def eventsgen_cli():
             blocktime_range=blocktime_range,
         )
     )
-
-
-if __name__ == "__main__":
-    cli()
