@@ -8,14 +8,14 @@ from functools import partial
 from pathlib import Path
 from typing import Callable
 
-import eventsgen
+import src
 from eventsend import SENDERS
 
 
 def get_module_config(
     path: Path,
     config_class: str,
-) -> type[eventsgen.EventConfig]:
+) -> type[src.EventConfig]:
     # use this to get instanciate a custom EventConfig interface class
     spec = importlib.util.spec_from_file_location("config", path)
     if spec is None:
@@ -47,11 +47,11 @@ def get_blocktime_range(args) -> tuple:
 
 async def main(
     sender: Callable[[str], None],
-    config_class: eventsgen.EventConfig,
+    config_class: src.EventConfig,
     count: int,
     blocktime_range: tuple,
 ):
-    results = eventsgen.eventsgen(config_class, count=count)
+    results = src.eventsgen(config_class, count=count)
     async for value in results:
         rnd_blocktime = random.uniform(*blocktime_range)
         print("-" * 20, "\n")
