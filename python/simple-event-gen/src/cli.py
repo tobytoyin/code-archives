@@ -1,8 +1,6 @@
 import asyncio
 import importlib
 import importlib.util
-import random
-import time
 from argparse import ArgumentParser
 from functools import partial
 from typing import Callable
@@ -38,24 +36,15 @@ def get_sender_callback(args):
     )
 
 
-def get_blocktime_range(args) -> tuple:
-    blocktime_range = map(float, args.blocktime_range.split(","))
-    return tuple(blocktime_range)
-
-
 async def main(
     sender: Callable[[str], None],
     config_class: eventsgen.EventConfig,
     count: int,
-    blocktime_range: tuple,
 ):
     results = eventsgen.eventsgen(config_class, count=count)
     async for value in results:
-        rnd_blocktime = random.uniform(*blocktime_range)
         print("-" * 20, "\n")
         sender(value)
-        print(f"Block for {rnd_blocktime:.4f}s")
-        time.sleep(rnd_blocktime)
 
 
 def eventsgen_cli():
@@ -90,32 +79,17 @@ def eventsgen_cli():
         type=int,
         default=514,
     )
-    cli.add_argument(
-        "--blocktime_range",
-        type=str,
-        default="0.0,10.0",
-        help="Random range in seconds of which the sender would block to send msg",
-    )
-    cli.add_argument(
-        "--seed",
-        type=int,
-        default=13579,
-        help="random seed",
-    )
 
     # parse cli args and start logics
     args = cli.parse_args()
-    random.seed(args.seed)
     config = get_module_config(module_path=args.location)
 
     sender_callback = get_sender_callback(args)  # some kind of log sender partial(str)
-    blocktime_range = get_blocktime_range(args)
 
     asyncio.run(
         main(
             sender=sender_callback,
             config_class=config,
             count=args.count,
-            blocktime_range=blocktime_range,
         )
     )
