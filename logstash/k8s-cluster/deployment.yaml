@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash-deployment
+  labels:
+    app: logstash
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      containers:
+      - name: logstash-instance
+        image: docker.elastic.co/logstash/logstash:8.11.1
+        ports:
+        - containerPort: 514
+        volumeMounts:
+        # path for the pipeline/*.conf
+        - name: pipelines-conf
+          mountPath: /usr/share/logstash/pipeline
+          readOnly: true
+        # config yaml
+        - name: logstash-config
+          mountPath: /usr/share/logstash/config
+
+      volumes:
+      # this is the pipelines for the logstash
+      - name: pipelines-conf
+        hostPath:
+          path: /tmp/logstash/pipeline
+          type: Directory
+
+      # these are the yml files that defined in ConfigMap: config_map.yaml
+      - name: logstash-config
+        configMap:
+          name: logstash-configmap
+          items:
+            - key: pipelines.yml
+              path: pipelines.yml
+            - key: logstash.yml
+              path: logstash.yml
