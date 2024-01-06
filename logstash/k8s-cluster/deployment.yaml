@@ -32,7 +32,7 @@ spec:
       # this is the pipelines for the logstash
       - name: pipelines-conf
         hostPath:
-          path: /tmp/logstash/pipeline
+          path: /data/pipeline
           type: Directory
 
       # these are the yml files that defined in ConfigMap: config_map.yaml
