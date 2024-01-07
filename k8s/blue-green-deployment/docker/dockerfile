@@ -1,0 +1,5 @@
+FROM nginx:1.14.1
+
+ARG INDEX_PAGE
+
+COPY ./$INDEX_PAGE /usr/share/nginx/html/index.html

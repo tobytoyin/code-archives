@@ -53,3 +53,10 @@ telnet > machine-2
 ```
 
 Then check the stdout of each individual logstash container, we can see that each container has been loadbalanced to handle one traffic from one terminal at a time.
+
+
+To clean up run:
+
+```bash
+minikube cleanup
+```
