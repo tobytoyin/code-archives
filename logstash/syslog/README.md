@@ -1,6 +1,6 @@
 ```shell
 docker run --rm -it \
-    -p 514:514 \
+    -p 5400:5400 \
     -v $(pwd)/pipeline/:/usr/share/logstash/pipeline/ \
     -v $(pwd)/pipelines.yml:/usr/share/logstash/config/pipelines.yml \
     -v $(pwd)/logstash.yml:/usr/share/logstash/config/logstash.yml \
